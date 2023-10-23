@@ -1,0 +1,39 @@
+/*
+ * Copyright (c) 2023-present, Qihoo, Inc.  All rights reserved.
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#include <folly/synchronization/Hazptr.h>
+
+#include <atomic>
+
+#include <folly/portability/GFlags.h>
+
+FOLLY_GFLAGS_DEFINE_bool(folly_hazptr_use_executor, true,
+                         "Use an executor for hazptr asynchronous reclamation");
+
+namespace folly {
+
+FOLLY_STATIC_CTOR_PRIORITY_MAX hazptr_domain<std::atomic> default_domain;
+
+bool hazptr_use_executor() { return FLAGS_folly_hazptr_use_executor; }
+
+} // namespace folly
